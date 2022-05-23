@@ -1,0 +1,310 @@
+/* 
+    Author     : Diego Velasco Peribáñez
+*/
+
+/*    ELEMENTOS COMUNES      */
+
+main{
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #7ed673, #c2e4bd);
+	font-family: Roboto;
+}
+
+#navegadorHeader{
+    background-color: #7ed673;
+}
+
+.nav-item{
+    margin: 5px;
+    font-size: 1.5em;
+}
+
+
+
+/*    PAGINA MAP      */
+
+#map_canvas{
+    /* width: 60vw; */
+    height: 60vh;
+    border-radius: 5px;
+}
+
+/* #selectsArea{
+    background-color: blue;
+} */
+.row{
+    margin-top: 10px;
+}
+.select-form{
+    margin: 0 auto;
+}
+
+#cardBuscador{
+    padding: 5px;
+}
+
+#selectsArea{
+    margin-top: 10px;
+}
+
+#map_canvas{
+    margin-top: 10px;
+}
+
+#estacionesArea{
+    margin-bottom: 50px;
+}
+
+
+
+/*    Estilos de los botones      */
+
+.btn-primary{
+    background-color: #7ed673;
+    border-color: #7ed673;
+}
+
+.btn-primary:hover{
+    background-color: #c2e4bd;
+    border-color: #c2e4bd;
+}
+
+.btn-primary:visited{
+    background-color: #7ed673;
+    border-color: #7ed673;
+}
+
+.btn-primary:active{
+    background-color: #c2e4bd;
+    border-color: #7ed673;
+}
+
+.btn-primary:focus{
+    background-color: #c2e4bd;
+    border-color: #7ed673;
+}
+
+
+
+
+
+
+
+/* FORMULARIO*/
+#registro{
+    max-width: 800px;
+    width: 90%;
+    margin: auto;
+    padding: 40px;
+}
+
+.formulario {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 20px;
+}
+
+.formulario-label {
+	display: block;
+	font-weight: 700;
+	padding: 10px;
+	cursor: pointer;
+}
+
+.formulario-group-input {
+	position: relative;
+}
+
+.formulario-input {
+	width: 80%;
+	background: #fff;
+	border: 3px solid transparent;
+	border-radius: 3px;
+	height: 45px;
+	line-height: 45px;
+	padding: 0 40px 0 10px;
+	transition: .3s ease all;
+}
+
+.formulario-input:focus {
+	border: 3px solid #0075FF;
+	outline: none;
+	box-shadow: 3px 0px 30px rgba(163,163,163, 0.4);
+}
+
+.formulario-input-error {
+	font-size: 12px;
+	margin-bottom: 0;
+	display: none;
+}
+
+.formulario-input-error-activo {
+	display: block;
+}
+
+.formulario-validacion-estado {
+	position: absolute;
+	right: 10px;
+	bottom: 15px;
+	z-index: 100;
+	font-size: 16px;
+	opacity: 0;
+}
+
+.formulario-checkbox {
+	margin-right: 10px;
+}
+
+.formulario-group-terminos, 
+.formulario-mensaje,
+.formulario-group-btn-enviar {
+	grid-column: span 2;
+}
+
+.formulario-mensaje {
+	height: 45px;
+	line-height: 45px;
+	background: #F66060;
+	padding: 0 15px;
+	border-radius: 3px;
+	display: none;
+}
+
+.formulario-mensaje-activo {
+	display: block;
+}
+
+.formulario-mensaje p {
+	margin: 0;
+}
+
+.formulario-group-btn-enviar {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.formulario-btn {
+	height: 45px;
+	line-height: 45px;
+	width: 30%;
+	background: #000;
+	color: #fff;
+	font-weight: bold;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	transition: .1s ease all;
+}
+
+.formulario-btn:hover {
+	box-shadow: 3px 0px 30px rgba(163,163,163, 1);
+}
+
+.formulario-mensaje-exito {
+	font-size: 14px;
+	color: #119200;
+	display: none;
+}
+
+.formulario-mensaje-exito-activo {
+	display: block;
+}
+
+/* ----- -----  Estilos para Validacion ----- ----- */
+.formulario-group-correcto .formulario-validacion-estado {
+	color: #1ed12d;
+	opacity: 1;
+}
+
+.formulario-group-incorrecto .formulario-label {
+	color: #bb2929;
+}
+
+.formulario-group-incorrecto .formulario-validacion-estado {
+	color: #bb2929;
+	opacity: 1;
+}
+
+.formulario-group-incorrecto .formulario-input {
+	border: 3px solid #bb2929;
+}
+
+
+
+
+
+
+
+
+
+
+/*     MEDIA QUERYSSS     */
+
+@media (max-width: 1032px){
+    .inToCard{
+        flex-direction: column;
+    }
+    .inToCard-text{
+        width: 100%;
+    }
+    .inToCard-btn{
+        flex-direction: row;
+        padding-left: 0px;
+    }
+}
+
+@media (max-width: 620px){
+
+    /* FORMULARIO */
+
+    .formulario {
+		grid-template-columns: 1fr;
+	}
+
+	.formulario-group-terminos, 
+	.formulario-mensaje,
+	.formulario-group-btn-enviar {
+		grid-column: 1;
+	}
+
+	.formulario-btn {
+		width: 100%;
+	}
+}
+
+
+
+
+
+
+/*    FUENTES      */
+
+@font-face {
+    font-family: Roboto;
+    src: local("Roboto"),
+    url("../assets/fonts/Roboto-Regular.ttf");
+    font-weight: regular;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: local("Roboto"),
+    url("../assets/fonts/Roboto-Bold.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: local("Roboto"),
+    url("../assets/fonts/Roboto-BoldItalic.ttf");
+    font-weight: bold;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: local("Roboto"),
+    url("../assets/fonts/Roboto-Light.ttf");
+    font-weight: light;
+}

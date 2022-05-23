@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindGAS</title>
+    <link rel="icon" href="./assets/img/FindGAS_icono_modified.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/global.css">
+</head>
+<body>
+    <header></header>
+    <main>
+<!-- ///////////////////////////////////////////////////// Barra de navegación /////////////////////////////////////////////////////////////// -->
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark" id="navegadorHeader">
+            <div class="container-fluid" id="navegador">
+                <!-- <a class="nav-link" href="#"><img src="./assets/logo.png" id="logoHeader"></a> -->
+                <a class="navbar-brand"><img src="./assets/img/FindGAS_icono_horizontal.png" style="height: 8vh; border-radius: 4vh;"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="./index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./map.html">Mapa</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./buscador.html">Buscador</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./favoritos.html">Favoritos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="">Contacto</a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="navegadorInicio"  style="margin-right: 5vw;">
+                    <ul class="nav nav-pills justify-content-end">
+                        <li class="nav-item" style="margin: 5px;">
+                            <a class="btn btn-primary" href="./registro.html" role="button">Registrarse</a>
+                        </li>
+                        <li class="nav-item" style="margin: 5px;">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLogin">Iniciar sesión</button>
+                        </li>
+                        </ul>
+                </div>
+            </div>
+        </nav>
+<!-- ////////////////////////////////////////////////////////////// Fin /////////////////////////////////////////////////////////////////////// -->
+
+<!-- ///////////////////////////////////////////////////// Contenedor principal /////////////////////////////////////////////////////////////// -->
+        <div class="container">
+            <div class="row">
+                <!--  Contenedor selects  -->
+                <div class="col-12 col-lg-4" id="selectsArea">
+
+                    <div class="card" style="width: 100%; height: 100%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Buscador</h5>
+                            <p class="card-text">Rellena las siguientes opciones para encontrar las estaciones de servicio del municipio que quieras.</p>
+
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h6 class="card-subtitle mb-2 text-muted">Tipo de combustible:</h6>
+                                    <select class="form-select" id="selectCombustible" name="selectCombustible" aria-label="Default select example" onchange="buscarEESSporMun(document.getElementById('selectMunicipio').value)">
+                                        <option selected disabled>Selecciona un tipo de COMBUSTIBLE</option>
+                                        <option value="gasolina95">Gasolina 95</option>
+                                        <option value="gasolina95premium">Gasolina 95 Premium</option>
+                                        <option value="gasolina98">Gasolina 98</option>
+                                        <option value="diesel">Diesel</option>
+                                        <option value="diesel+">Diesel +</option>
+                                        <option value="biodiesel">Biodiesel</option>
+                                        <option value="bioetanol">Bioetanol</option>
+                                        <option value="GNC">Gas Natural Comprimido</option>
+                                        <option value="GNL">Gas Natural Licuado</option>
+                                        <option value="hidrogeno">Hidrógeno</option>
+                                    </select>
+                                    <div id="liveAlertPlaceholder"></div>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6 class="card-subtitle mb-2 text-muted">Comunidad autónoma:</h6>
+                                    <select class="form-select" id="selectCCAA" name="selectCCAA" aria-label="Default select example" onchange="buscarProvincias(document.getElementById('selectCCAA').value)">
+                                        <option selected disabled>Selecciona una CCAA</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6 class="card-subtitle mb-2 text-muted">Provincia:</h6>
+                                    <select class="form-select" id="selectProvincia" name="selectProvincia" aria-label="Default select example" onchange="buscarMunicipios(document.getElementById('selectProvincia').value)">
+                                        <option selected disabled>Selecciona una PROVINCIA</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <h6 class="card-subtitle mb-2 text-muted">Municipio:</h6>
+                                    <select class="form-select" id="selectMunicipio" name="selectMunicipio" aria-label="Default select example" onchange="inicioMap(); buscarEESSporMun(document.getElementById('selectMunicipio').value);">
+                                        <option selected disabled>Selecciona un MUNICIPIO</option>
+                                    </select>
+                                </li>
+                              </ul>
+                        </div>
+                    </div>
+                    
+
+
+                </div>
+                <!--  Contenedor mapa  -->
+                <div class="col-12 col-lg-8" id="map_canvas" onload="inicioMap()">
+                    
+                </div>
+            </div>
+            <div class="row">
+                <!--  Contenedor datos EESS  -->
+                <div class="col-12" id="estacionesArea">
+                    <div class="table-responsive" style="background-color: white; border-radius: 5px;">
+                        <table class="table table-hover align-middle" id="tabla">
+                            <thead class="table-light">
+                                <tr>
+                                  <th scope="col">#</th>
+                                  <th scope="col">EMPRESA</th>
+                                  <th scope="col">DIRECCIÓN</th>
+                                  <th scope="col">LOCALIDAD</th>
+                                  <th scope="col">C.P.</th>
+                                  <th scope="col">PROVINCIA</th>
+                                  <th scope="col">HORARIO</th>
+                                  <th scope="col">COMBUSTIBLE</th>
+                                </tr>
+                              </thead>
+                              <tbody id="tablaEESS">
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+
+
+    <!-- ////////////////////////////////////  MODAL   /////////////////////////////////////////////////// -->
+    <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLogin" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" style="padding: 50px;">
+                <div class="container">
+                    <img src="./assets/img/FindGAS_over.png" class="mx-auto d-block" style="width: 200px; height: 200px;"/>    
+                </div>
+                <br>
+                
+                <!-- Formulario Inicio de Sesion -->
+                <form name="inicioSesion" action="javascript:checkInicio()">
+                    <div class="mb-3">
+                    <label for="inputEmail" class="form-label">Correo electrónico:</label>
+                    <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Email">
+                    <div id="emailHelp" class="form-text">Debe estar registrado, si no lo esta, registrese <a href="./registro.html">aquí</a>.</div>
+                    </div>
+                    <div class="mb-3">
+                    <label for="inputPassword" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña">
+                    </div>
+                    <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="agree" onclick="">
+                    <label class="form-check-label" for="agree">Aceptas los terminos y condiciones.</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="float: right;">Iniciar sesión</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="./js/funciones.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+
+
+
+    
+
+
+</body>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBeNRBEIWYeWRRvY8On_9pkSD1_J_zLykQ&libraries=geometry"></script>
+<script src="./js/funciones.js"></script>
+<script src="./js/map.js"></script>
+</html>
