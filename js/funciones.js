@@ -1,4 +1,5 @@
-//Autor: Diego Velasco Peribáñez
+// const municipiosJson = import('../assets/json/localidades.json');
+
 
 var arrayEESS = new Array();
 var markers = new Array();
@@ -34,6 +35,38 @@ function buscarCCAA() {
             this.select.options.add(option);
             i++;
         });
+    })
+    .catch(err => { console.log("ERROR :" + err) });
+}
+//#endregion
+
+//#region Buscar el listado de CCAA por Tipo de Combustible
+///////////////////////////// Buscar el listado de CCAA por Tipo de Combustible ////////////////////////////////
+
+function buscarEESSxCCAAyPrecio(idCCAA) {
+    fetch('https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/EstacionesTerrestres/FiltroCCAAProducto/'+idCCAA+'/'+1)
+    .then(resp => {
+        console.log("Estado url : "+ resp.url+ "  status: "+resp.status+" type: "+resp.type);              
+        return resp.json();
+    })
+    .then(json => {
+        console.log(json);
+        i=0;
+        var sumaPrecios = 0;
+        var mediaPrecios = 0;
+        var ListaEESS = json;
+        // limpiarSelect(select);
+
+        ListaEESS["ListaEESSPrecio"].forEach(e => {
+            // console.log(e);
+            // console.log(e["PrecioProducto"]);
+            // e["PrecioProducto"]
+            sumaPrecios = sumaPrecios + parseFloat(e["PrecioProducto"].replace(',', '.'));
+            // console.log(sumaPrecios);
+            i++;
+        });
+        mediaPrecios = sumaPrecios/(i+1);
+        console.log(mediaPrecios);
     })
     .catch(err => { console.log("ERROR :" + err) });
 }
@@ -141,6 +174,8 @@ function guardarRegistros(ListaEESS) {
     if(document.getElementById('selectCombustible').value == null){
         alerta("Selecciona un tipo de combustible", "liveAlertPlaceholder");
     }else{
+        imprimirHeaders();
+        
         ListaEESS.forEach(e => {
             eess =  new Array({
                 id: i,
@@ -298,19 +333,40 @@ function verModal(){
 
 //#region Funcion LIMPIAR REGISTROS
 function limpiarRegistros() {
-    console.log("*********************************************************************");
-    console.log(this.arrayEESS.length);
-    console.log(this.arrayEESS);
+    // console.log("*********************************************************************");
+    // console.log(this.arrayEESS.length);
+    // console.log(this.arrayEESS);
     this.arrayEESS.splice(0, arrayEESS.length);
-    console.log(this.arrayEESS.length);
-    console.log(this.arrayEESS);
-    console.log("*********************************************************************");
+    // console.log(this.arrayEESS.length);
+    // console.log(this.arrayEESS);
+    // console.log("*********************************************************************");
 
+    limpiarCabecera();
+    limpiarTabla();
+
+}
+//#endregion
+
+//#region Funcion LIMPIAR TABLA
+function limpiarTabla() {
+   
     var tabla = document.getElementById("tabla");
     var cuerpo = document.getElementById("tablaEESS");
     while (cuerpo.getElementsByTagName("tr").length > 0) {
         // alert(cuerpo.getElementsByTagName("tr").length)
         cuerpo.removeChild(cuerpo.lastChild);
+    }
+}
+//#endregion
+
+//#region Funcion LIMPIAR CABECERA
+function limpiarCabecera() {
+    
+    var tabla = document.getElementById("tabla");
+    var header = document.getElementById("tablaHeaders");
+    while (header.getElementsByTagName("tr").length > 0) {
+        // alert(header.getElementsByTagName("tr").length)
+        header.removeChild(header.lastChild);
     }
 }
 //#endregion
@@ -327,16 +383,112 @@ function limpiarMarcadores() {
 }
 //#endregion
 
+//#region Funcion IMPRIMIR CABECERA
+function imprimirHeaders() {
+
+    limpiarCabecera();
+
+    comb = selectCombustibleString();
+
+
+    header = document.getElementById('tablaHeaders');
+    linea = document.createElement("tr");
+    // linea.setAttribute("onclick", "metodoSort()");
+
+
+    head = document.createTextNode("#");
+    Columna = document.createElement("th");
+    // Columna.setAttribute("scope", "col");
+    Columna.appendChild(head);
+    linea.appendChild(Columna);
+
+    head = document.createTextNode("EMPRESA");
+    Columna = document.createElement("th");
+    // Columna.setAttribute("scope", "col");
+    Columna.appendChild(head);
+    linea.appendChild(Columna);
+
+    head = document.createTextNode("DIRECCIÓN");
+    Columna = document.createElement("th");
+    // Columna.setAttribute("scope", "col");
+    Columna.appendChild(head);
+    linea.appendChild(Columna);
+
+    head = document.createTextNode("LOCALIDAD");
+    Columna = document.createElement("th");
+    // Columna.setAttribute("scope", "col");
+    Columna.appendChild(head);
+    linea.appendChild(Columna);
+    
+    head = document.createTextNode("C.P.");
+    Columna = document.createElement("th");
+    // Columna.setAttribute("scope", "col");
+    Columna.appendChild(head);
+    linea.appendChild(Columna);
+
+    head = document.createTextNode("PROVINCIA");
+    Columna = document.createElement("th");
+    // Columna.setAttribute("scope", "col");
+    Columna.appendChild(head);
+    linea.appendChild(Columna);
+
+    head = document.createTextNode("HORARIO");
+    Columna = document.createElement("th");
+    // Columna.setAttribute("scope", "col");
+    Columna.appendChild(head);
+    linea.appendChild(Columna);
+
+    if(comb == ""){
+        head = document.createTextNode("COMBUSTIBLE");
+    }else{
+        head = document.createTextNode(comb);
+    }
+    Columna = document.createElement("th");
+    // Columna.setAttribute("scope", "col");
+    Columna.appendChild(head);
+    linea.appendChild(Columna);
+    
+    // linea.appendChild(Columna)
+    header.appendChild(linea);
+
+
+
+}
+//#endregion
+
+//#region Seleccion del COMBUSTIBLE y devuelve una cadena de texto
+function selectCombustibleString() {
+    switch (document.getElementById('selectCombustible').value) {
+        case 'gasolina95':
+            return "GASOLINA 95";
+        case 'gasolina95premium':
+            return "GASOLINA 95 PREMIUM";
+        case 'gasolina98':
+            return "GASOLINA 98";
+        case 'diesel':
+            return "DIÉSEL";
+        case 'diesel+':
+            return "DIÉSEL +";
+        case 'biodiesel':
+            return "BIODIÉSEL";
+        case 'bioetanol':
+            return "BIOETANOL";
+        case 'GNC':
+            return "GNC";
+        case 'GNL':
+            return "GLC";
+        case 'hidrogeno':
+            return "HIDRÓGENO";
+        default:
+            return null;
+    }
+}
+//#endregion
+
 //#region Funcion IMPRIMIR REGISTRO
 function imprimirRegistro(i) {
 
     comb = selectCombustible(this.arrayEESS[i][0]);
-
-    // console.log(this.arrayEESS[i][0]);
-    // console.log(this.arrayEESS[i][0]["empresa"]);
-    // console.log(arrayEESS[i][0].empresa);
-    // console.log(i);
-
     lat = parseFloat(this.arrayEESS[i][0].latitud);
     long = parseFloat(this.arrayEESS[i][0].longitud);
     empresa = this.arrayEESS[i][0].empresa;
@@ -346,55 +498,48 @@ function imprimirRegistro(i) {
     provincia = this.arrayEESS[i][0].provincia;
     horario = this.arrayEESS[i][0].horario;
 
+//Empieza la estructura de lineas creadas
     registro = document.getElementById('tablaEESS');
     linea = document.createElement("tr");
     linea.setAttribute("onclick", "clickEESS(this.id)");
     linea.setAttribute("id", i);
     linea.setAttribute("class", "registroEESS");
 
-    // parrafo = document.createElement("p");
     dato = document.createTextNode(i+1);
     Columna = document.createElement("td");
     Columna.appendChild(dato);
     linea.appendChild(Columna);
 
-    // parrafo = document.createElement("p");
     dato = document.createTextNode(empresa);
     Columna = document.createElement("td");
     Columna.appendChild(dato);
     linea.appendChild(Columna);
 
-    // parrafo = document.createElement("p");
     dato = document.createTextNode(direccion);
     Columna = document.createElement("td");
     Columna.appendChild(dato);
     linea.appendChild(Columna);
 
-    // parrafo = document.createElement("p");
     dato = document.createTextNode(localidad);
     Columna = document.createElement("td");
     Columna.appendChild(dato);
     linea.appendChild(Columna);
     
-    // parrafo = document.createElement("p");
     dato = document.createTextNode(cp);
     Columna = document.createElement("td");
     Columna.appendChild(dato);
     linea.appendChild(Columna);
 
-    // parrafo = document.createElement("p");
     dato = document.createTextNode(provincia);
     Columna = document.createElement("td");
     Columna.appendChild(dato);
     linea.appendChild(Columna);
 
-    // parrafo = document.createElement("p");
     dato = document.createTextNode(horario);
     Columna = document.createElement("td");
     Columna.appendChild(dato);
     linea.appendChild(Columna);
 
-    // parrafo = document.createElement("p");
     if(comb == ""){
         dato = document.createTextNode('No hay datos');
     }else{
@@ -475,10 +620,16 @@ function clickEESS(i) {
 
 
 
+// var localidades = JSON.parse(municipiosJson);
+// console.log(localidades[1]["Comunidad"]);
 
 
-
-
+// try {
+//     var localidades = JSON.parse(municipiosJson);
+// } catch (error) {
+//     is_json = false;
+//     console.log("Invalid JSON string");
+// }
 
 
 

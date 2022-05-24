@@ -23,19 +23,19 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="./index.html">Inicio</a>
+                            <a class="nav-link active" aria-current="page" href="./index.html"><h2>Inicio</h2></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="./map.html">Mapa</a>
+                            <a class="nav-link active" href="./map.html"><h2><b>Mapa</b></h2></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="./buscador.html">Buscador</a>
+                            <a class="nav-link active" href="./buscador.html"><h2>Buscador</h2></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="./favoritos.html">Favoritos</a>
+                            <a class="nav-link active" href="./favoritos.html"><h2>Favoritos</h2></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="">Contacto</a>
+                            <a class="nav-link  active" href="./contacto.html"><h2>Contacto</h2></a>
                         </li>
                     </ul>
                 </div>
@@ -85,7 +85,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     <h6 class="card-subtitle mb-2 text-muted">Comunidad autónoma:</h6>
-                                    <select class="form-select" id="selectCCAA" name="selectCCAA" aria-label="Default select example" onchange="buscarProvincias(document.getElementById('selectCCAA').value)">
+                                    <select class="form-select" id="selectCCAA" name="selectCCAA" aria-label="Default select example" onchange="buscarProvincias(document.getElementById('selectCCAA').value); buscarEESSxCCAAyPrecio(document.getElementById('selectCCAA').value);">
                                         <option selected disabled>Selecciona una CCAA</option>
                                     </select>
                                 </li>
@@ -118,19 +118,10 @@
                 <div class="col-12" id="estacionesArea">
                     <div class="table-responsive" style="background-color: white; border-radius: 5px;">
                         <table class="table table-hover align-middle" id="tabla">
-                            <thead class="table-light">
-                                <tr>
-                                  <th scope="col">#</th>
-                                  <th scope="col">EMPRESA</th>
-                                  <th scope="col">DIRECCIÓN</th>
-                                  <th scope="col">LOCALIDAD</th>
-                                  <th scope="col">C.P.</th>
-                                  <th scope="col">PROVINCIA</th>
-                                  <th scope="col">HORARIO</th>
-                                  <th scope="col">COMBUSTIBLE</th>
-                                </tr>
-                              </thead>
-                              <tbody id="tablaEESS">
+                            <thead class="table-light" id="tablaHeaders">
+                                
+                            </thead>
+                            <tbody id="tablaEESS">
                                 
                             </tbody>
                         </table>
@@ -185,4 +176,5 @@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBeNRBEIWYeWRRvY8On_9pkSD1_J_zLykQ&libraries=geometry"></script>
 <script src="./js/funciones.js"></script>
 <script src="./js/map.js"></script>
+<script type="text/javascript" src="./assets/json/localidades.json"></script>
 </html>
